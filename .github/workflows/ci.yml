@@ -86,9 +86,9 @@ jobs:
       - run: npm ci
       - name: Build installer
         run: npx tauri build
-        # Code signing: set TAURI_SIGNING_PRIVATE_KEY / a signtool certificate in
-        # repository secrets and configure bundle.windows.certificateThumbprint.
-        # See docs/RELEASE-CHECKLIST.md.
+        # Authenticode signing: import the certificate from repository secrets and
+        # set bundle.windows.certificateThumbprint + timestampUrl (or signCommand)
+        # in tauri.conf.json. See docs/RELEASE-CHECKLIST.md.
       - uses: actions/upload-artifact@v4
         with:
           name: installer
