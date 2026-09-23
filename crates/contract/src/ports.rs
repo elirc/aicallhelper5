@@ -148,14 +148,25 @@ pub trait SttSender: Send {
 
 // ───────────────────────────── answer providers ─────────────────────────────
 
-/// The prompt, split so providers can cache the stable prefix.
-#[derive(Debug, Clone, PartialEq, Eq)]
+/// The prompt, split so providers can cache the stable prefix. `Debug` shows
+/// lengths only (the prefix carries resume/notes text).
+#[derive(Clone, PartialEq, Eq)]
 pub struct PromptParts {
     /// Call-type role + profile sections + grounding. Cache this.
     pub cached_prefix: String,
     /// Answer-style instruction. Flipping style must not invalidate the cache.
     pub style_suffix: String,
     pub user_message: String,
+}
+
+impl std::fmt::Debug for PromptParts {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("PromptParts")
+            .field("cached_prefix_len", &self.cached_prefix.len())
+            .field("style_suffix_len", &self.style_suffix.len())
+            .field("user_message_len", &self.user_message.len())
+            .finish()
+    }
 }
 
 /// A fully-built request, built ONCE per answer. A retry resends exactly these

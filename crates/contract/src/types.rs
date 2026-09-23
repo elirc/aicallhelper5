@@ -407,7 +407,8 @@ pub const ANSWER_FONT_DEFAULT: u8 = 14;
 pub const FONT_STEP: u8 = 2;
 
 /// Profile ids match `^[A-Za-z0-9_-]{1,64}$`. Profiles are stored in plain text.
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
+/// `Debug` omits the free-text fields (they must never reach logs/panics).
+#[derive(Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
 #[serde(rename_all = "camelCase")]
 #[ts(export)]
 pub struct Profile {
@@ -418,6 +419,20 @@ pub struct Profile {
     pub resume: String,
     pub job_description: String,
     pub notes: String,
+}
+
+impl std::fmt::Debug for Profile {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("Profile")
+            .field("id", &self.id)
+            .field("call_type", &self.call_type)
+            .field("name_len", &self.name.len())
+            .field("focus_len", &self.focus.len())
+            .field("resume_len", &self.resume.len())
+            .field("job_description_len", &self.job_description.len())
+            .field("notes_len", &self.notes.len())
+            .finish()
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]

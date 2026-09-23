@@ -3,5 +3,6 @@ import type { CallType } from "./CallType";
 
 /**
  * Profile ids match `^[A-Za-z0-9_-]{1,64}$`. Profiles are stored in plain text.
+ * `Debug` omits the free-text fields (they must never reach logs/panics).
  */
 export type Profile = { id: string, name: string, callType: CallType, focus: string, resume: string, jobDescription: string, notes: string, };

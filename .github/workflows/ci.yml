@@ -1,0 +1,95 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+  RUSTFLAGS: -D warnings
+
+jobs:
+  check:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+
+      - uses: Swatinem/rust-cache@v2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Version drift
+        run: node tools/check-version.mjs
+
+      - name: npm ci
+        run: npm ci
+
+      - name: Contract bindings up to date
+        shell: bash
+        run: |
+          cargo test -p callcore-contract
+          git diff --exit-code -- src/generated
+
+      - name: rustfmt
+        run: cargo fmt --all -- --check
+
+      - name: Frontend build (needed by tauri-build)
+        run: npm run build
+
+      - name: clippy
+        run: cargo clippy --workspace --all-targets -- -D warnings
+
+      - name: Rust tests
+        run: cargo test --workspace
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: ESLint
+        run: npx eslint src
+
+      - name: Frontend tests
+        run: npx vitest run
+
+      - name: cargo audit
+        shell: bash
+        run: |
+          cargo install cargo-audit --locked
+          cargo audit
+
+      - name: npm audit
+        run: npm audit --omit=dev
+
+  bundle:
+    needs: check
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Build installer
+        run: npx tauri build
+        # Code signing: set TAURI_SIGNING_PRIVATE_KEY / a signtool certificate in
+        # repository secrets and configure bundle.windows.certificateThumbprint.
+        # See docs/RELEASE-CHECKLIST.md.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: installer
+          path: target/release/bundle/nsis/*.exe

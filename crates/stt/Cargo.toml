@@ -1,0 +1,27 @@
+[package]
+name = "callcore-stt"
+description = "Deepgram streaming WebSocket client + transcript accumulator."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+callcore-contract = { workspace = true }
+tokio = { workspace = true }
+tokio-tungstenite = { workspace = true }
+futures-util = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+async-trait = { workspace = true }
+tracing = { workspace = true }
+# tokio-tungstenite builds its rustls ClientConfig with `ClientConfig::builder()`,
+# which panics unless a crypto provider is compiled in. Pin `ring` here so wss
+# works even when this crate is built without reqwest in the graph.
+rustls = { version = "0.23", default-features = false, features = ["ring", "std", "tls12"] }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["full", "test-util"] }

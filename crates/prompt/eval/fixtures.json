@@ -1,0 +1,698 @@
+{
+  "version": 1,
+  "profiles": {
+    "backend_eng": {
+      "resume": "Priya Raman — Senior Backend Engineer\n\nNorthwind Payments (2021–present), Senior Software Engineer\n- Led migration of the billing ledger from a monolith to three Go services; cut p99 invoice latency from 1.8 s to 240 ms.\n- Designed an idempotent payment-retry queue on Postgres + SQS that eliminated duplicate charges (previously ~40/month).\n- Mentored four engineers; ran the on-call rotation redesign that reduced pages by 60%.\n\nBrightlane Logistics (2017–2021), Software Engineer\n- Built a route-optimisation API in Python/FastAPI serving 12k requests/min.\n- Introduced contract tests between 9 services; release rollbacks dropped from 1 in 6 to 1 in 40.\n\nSkills: Go, Python, PostgreSQL, Kafka, AWS (SQS, Lambda, RDS), Terraform, Kubernetes.",
+      "jobDescription": "Staff Backend Engineer, Payments Platform at Fernbank. Own the reliability and scalability of money movement: ledger, payouts, reconciliation. Requirements: 7+ years backend, distributed systems, strong SQL, experience with exactly-once / idempotent processing, mentoring.",
+      "focus": "Lead with Go and Postgres. Emphasise idempotency and reliability work.",
+      "notes": "Leaving Northwind because the payments team is being merged into a larger org. Available with 4 weeks notice. Comp target 210–240k base. Authorized to work in the US, no sponsorship needed."
+    },
+    "new_grad": {
+      "resume": "Marcus Lee — B.S. Computer Science, University of Oregon (2026)\n- Internship, Tidewater Health (summer 2025): built a React + TypeScript dashboard for nurse shift swaps; 300 weekly users.\n- Capstone: real-time bus tracker (Kotlin Android app + Node.js backend), team of 4, I owned the backend and GTFS feed parsing.\n- TA for Data Structures, two terms.\nSkills: TypeScript, React, Node.js, Java, SQL.",
+      "jobDescription": "",
+      "focus": "",
+      "notes": ""
+    },
+    "sales_rep": {
+      "resume": "Account executive at Loomwise, a scheduling and dispatch SaaS for field-service companies (HVAC, plumbing, electrical). Five years in B2B SaaS sales.",
+      "jobDescription": "Discovery + demo call with Carter & Sons HVAC, 45 technicians, currently on spreadsheets and a whiteboard. Decision makers: ops manager (on the call) and owner (not on the call).",
+      "focus": "Get agreement to a 14-day pilot with 10 technicians.",
+      "notes": "Pricing: Starter $29/tech/month (up to 20 techs), Pro $45/tech/month (unlimited, includes route optimisation and QuickBooks sync). Annual billing = 2 months free. Integrations: QuickBooks Online, Xero, Google Calendar. No native SAP integration. Onboarding takes about 2 weeks. SOC 2 Type II certified."
+    },
+    "meeting_lead": {
+      "resume": "Engineering manager for the mobile team (6 engineers, iOS + Android).",
+      "jobDescription": "Weekly product sync: mobile, web, design and product. Agenda: Q4 roadmap, the checkout redesign slip, on-call load.",
+      "focus": "",
+      "notes": "Checkout redesign slipped two weeks because the payments SDK upgrade broke Apple Pay on iOS 17. Fix is in QA now. Mobile on-call had 14 pages last week, 9 from one flaky push-notification alert."
+    },
+    "empty": {}
+  },
+  "fixtures": [
+    {
+      "id": "behavioral-conflict",
+      "callType": "behavioral",
+      "profile": "backend_eng",
+      "question": "Tell me about a time you disagreed with a teammate on a technical decision. How did you handle it?",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say"
+        ],
+        "maxWords": {
+          "brief": 60,
+          "balanced": 150,
+          "detailed": 260
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true
+      }
+    },
+    {
+      "id": "behavioral-failure",
+      "callType": "behavioral",
+      "profile": "backend_eng",
+      "question": "What's a project that didn't go the way you planned, and what did you learn from it?",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say"
+        ],
+        "maxWords": {
+          "brief": 60,
+          "balanced": 150,
+          "detailed": 260
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true
+      }
+    },
+    {
+      "id": "behavioral-proud",
+      "callType": "behavioral",
+      "profile": "new_grad",
+      "question": "So, what's the project you're most proud of so far?",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say"
+        ],
+        "maxWords": {
+          "brief": 60,
+          "balanced": 150,
+          "detailed": 260
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true
+      }
+    },
+    {
+      "id": "behavioral-leadership",
+      "callType": "behavioral",
+      "profile": "backend_eng",
+      "question": "Can you give me an example of when you had to lead without formal authority?",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say"
+        ],
+        "maxWords": {
+          "brief": 60,
+          "balanced": 150,
+          "detailed": 260
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true
+      }
+    },
+    {
+      "id": "behavioral-no-profile",
+      "callType": "behavioral",
+      "profile": "empty",
+      "question": "Why are you interested in this role?",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say"
+        ],
+        "maxWords": {
+          "brief": 60,
+          "balanced": 150,
+          "detailed": 260
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true
+      }
+    },
+    {
+      "id": "technical-idempotency",
+      "callType": "technical",
+      "profile": "backend_eng",
+      "question": "How would you make a payment API idempotent?",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say"
+        ],
+        "maxWords": {
+          "brief": 60,
+          "balanced": 150,
+          "detailed": 260
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true,
+        "mustContainAny": [
+          "idempot",
+          "key"
+        ]
+      }
+    },
+    {
+      "id": "technical-index",
+      "callType": "technical",
+      "profile": "backend_eng",
+      "question": "When would a B-tree index in Postgres not help a query?",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say"
+        ],
+        "maxWords": {
+          "brief": 60,
+          "balanced": 150,
+          "detailed": 260
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true,
+        "mustContainAny": [
+          "index",
+          "scan"
+        ]
+      }
+    },
+    {
+      "id": "technical-react-state",
+      "callType": "technical",
+      "profile": "new_grad",
+      "question": "What's the difference between useMemo and useCallback in React?",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say"
+        ],
+        "maxWords": {
+          "brief": 60,
+          "balanced": 150,
+          "detailed": 260
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true,
+        "mustContainAny": [
+          "useMemo",
+          "useCallback"
+        ]
+      }
+    },
+    {
+      "id": "technical-two-sum",
+      "callType": "technical",
+      "profile": "new_grad",
+      "question": "Okay, given an array of integers and a target, return the indices of two numbers that add up to the target.",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say"
+        ],
+        "maxWords": {
+          "brief": 60,
+          "balanced": 150,
+          "detailed": 260
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true,
+        "mustContainAny": [
+          "O(n)",
+          "hash",
+          "map"
+        ]
+      }
+    },
+    {
+      "id": "technical-unknown-tech",
+      "callType": "technical",
+      "profile": "backend_eng",
+      "question": "Have you worked with Erlang's OTP supervision trees?",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say"
+        ],
+        "maxWords": {
+          "brief": 60,
+          "balanced": 150,
+          "detailed": 260
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true
+      }
+    },
+    {
+      "id": "sysdesign-url-shortener",
+      "callType": "system_design",
+      "profile": "backend_eng",
+      "question": "Let's design a URL shortener like bit.ly.",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say"
+        ],
+        "maxWords": {
+          "brief": 60,
+          "balanced": 150,
+          "detailed": 260
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true
+      }
+    },
+    {
+      "id": "sysdesign-ledger",
+      "callType": "system_design",
+      "profile": "backend_eng",
+      "question": "How would you design a double-entry ledger that handles a few thousand transactions a second?",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say"
+        ],
+        "maxWords": {
+          "brief": 60,
+          "balanced": 150,
+          "detailed": 260
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true,
+        "mustContainAny": [
+          "ledger",
+          "entries",
+          "entry"
+        ]
+      }
+    },
+    {
+      "id": "sysdesign-rate-limiter",
+      "callType": "system_design",
+      "profile": "new_grad",
+      "question": "Design a rate limiter for a public API.",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say"
+        ],
+        "maxWords": {
+          "brief": 60,
+          "balanced": 150,
+          "detailed": 260
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true,
+        "mustContainAny": [
+          "token bucket",
+          "sliding window",
+          "fixed window",
+          "leaky bucket",
+          "limit"
+        ]
+      }
+    },
+    {
+      "id": "sysdesign-scale-followup",
+      "callType": "system_design",
+      "profile": "backend_eng",
+      "question": "Okay, and what happens to your design when traffic grows ten times?",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say"
+        ],
+        "maxWords": {
+          "brief": 60,
+          "balanced": 150,
+          "detailed": 260
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true
+      }
+    },
+    {
+      "id": "recruiter-comp",
+      "callType": "recruiter",
+      "profile": "backend_eng",
+      "question": "What are your salary expectations for this role?",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say"
+        ],
+        "maxWords": {
+          "brief": 60,
+          "balanced": 150,
+          "detailed": 260
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true,
+        "mustContainAny": [
+          "range",
+          "210",
+          "flexible",
+          "process"
+        ]
+      }
+    },
+    {
+      "id": "recruiter-why-leaving",
+      "callType": "recruiter",
+      "profile": "backend_eng",
+      "question": "Why are you looking to leave your current company?",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say"
+        ],
+        "maxWords": {
+          "brief": 50,
+          "balanced": 90,
+          "detailed": 180
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true
+      }
+    },
+    {
+      "id": "recruiter-start-date",
+      "callType": "recruiter",
+      "profile": "backend_eng",
+      "question": "If we move forward, when could you start?",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say"
+        ],
+        "maxWords": {
+          "brief": 50,
+          "balanced": 90,
+          "detailed": 180
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true,
+        "mustContainAny": [
+          "four weeks",
+          "4 weeks",
+          "notice"
+        ]
+      }
+    },
+    {
+      "id": "recruiter-visa",
+      "callType": "recruiter",
+      "profile": "new_grad",
+      "question": "Will you now or in the future require visa sponsorship?",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say"
+        ],
+        "maxWords": {
+          "brief": 50,
+          "balanced": 90,
+          "detailed": 180
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true
+      }
+    },
+    {
+      "id": "sales-price-objection",
+      "callType": "sales",
+      "profile": "sales_rep",
+      "question": "Honestly forty-five bucks a tech seems steep. We're a small shop.",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say"
+        ],
+        "maxWords": {
+          "brief": 60,
+          "balanced": 150,
+          "detailed": 260
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true,
+        "mustContainAny": [
+          "starter",
+          "annual",
+          "pilot",
+          "29"
+        ]
+      }
+    },
+    {
+      "id": "sales-sap",
+      "callType": "sales",
+      "profile": "sales_rep",
+      "question": "Do you guys integrate with SAP? Our parent company uses it.",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say",
+          "yes, we integrate with sap"
+        ],
+        "maxWords": {
+          "brief": 60,
+          "balanced": 150,
+          "detailed": 260
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true,
+        "mustContainAny": [
+          "confirm",
+          "quickbooks",
+          "xero",
+          "not"
+        ]
+      }
+    },
+    {
+      "id": "sales-onboarding",
+      "callType": "sales",
+      "profile": "sales_rep",
+      "question": "How long does it take to get everyone up and running?",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say"
+        ],
+        "maxWords": {
+          "brief": 60,
+          "balanced": 150,
+          "detailed": 260
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true,
+        "mustContainAny": [
+          "two weeks",
+          "2 weeks",
+          "pilot"
+        ]
+      }
+    },
+    {
+      "id": "sales-security",
+      "callType": "sales",
+      "profile": "sales_rep",
+      "question": "Our owner is going to ask about security. What do I tell him?",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say"
+        ],
+        "maxWords": {
+          "brief": 60,
+          "balanced": 150,
+          "detailed": 260
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true,
+        "mustContainAny": [
+          "SOC 2",
+          "SOC2"
+        ]
+      }
+    },
+    {
+      "id": "sales-no-question",
+      "callType": "sales",
+      "profile": "sales_rep",
+      "question": "Yeah, so right now everything's on a whiteboard in the dispatch office.",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say"
+        ],
+        "maxWords": {
+          "brief": 60,
+          "balanced": 150,
+          "detailed": 260
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true
+      }
+    },
+    {
+      "id": "meeting-slip",
+      "callType": "meeting",
+      "profile": "meeting_lead",
+      "question": "Where are we on the checkout redesign? I thought it was shipping last week.",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say"
+        ],
+        "maxWords": {
+          "brief": 60,
+          "balanced": 150,
+          "detailed": 260
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true,
+        "mustContainAny": [
+          "Apple Pay",
+          "SDK",
+          "QA"
+        ]
+      }
+    },
+    {
+      "id": "meeting-oncall",
+      "callType": "meeting",
+      "profile": "meeting_lead",
+      "question": "Mobile on-call looks rough. Anything we should do about it?",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say"
+        ],
+        "maxWords": {
+          "brief": 60,
+          "balanced": 150,
+          "detailed": 260
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true,
+        "mustContainAny": [
+          "alert",
+          "push",
+          "flaky"
+        ]
+      }
+    },
+    {
+      "id": "meeting-roadmap",
+      "callType": "meeting",
+      "profile": "meeting_lead",
+      "question": "For Q4, should mobile take on the offline mode work or keep polishing checkout?",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say"
+        ],
+        "maxWords": {
+          "brief": 60,
+          "balanced": 150,
+          "detailed": 260
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true
+      }
+    },
+    {
+      "id": "meeting-no-profile",
+      "callType": "meeting",
+      "profile": "empty",
+      "question": "Does anyone have anything else before we wrap up?",
+      "expect": {
+        "mustNotContain": [
+          "As an AI",
+          "\"\"\"",
+          "language model",
+          "the user should",
+          "Here's what you could say"
+        ],
+        "maxWords": {
+          "brief": 60,
+          "balanced": 150,
+          "detailed": 260
+        },
+        "firstPerson": true,
+        "noWrappingQuotes": true
+      }
+    }
+  ]
+}
