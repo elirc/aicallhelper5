@@ -1,0 +1,20 @@
+[package]
+name = "callcore-audio"
+description = "WASAPI loopback capture on a dedicated worker thread + DSP (downmix, anti-aliased resample to 16 kHz, framing, RMS)."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+callcore-contract = { workspace = true }
+tokio = { workspace = true }
+async-trait = { workspace = true }
+tracing = { workspace = true }
+cpal = { workspace = true }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["full", "test-util"] }
