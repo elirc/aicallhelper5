@@ -5,6 +5,9 @@
 //!   "audio-worker" OS thread owns every device object; the async methods
 //!   send it a command and await the reply.
 //! * [`backend`] / [`fake`] — the device seam and a scriptable fake for tests.
+//! * `wasapi` — the production backend: polling WASAPI loopback on a
+//!   dedicated capture thread, with wall-clock silence filling for the gaps
+//!   in which loopback delivers no packets (nothing playing).
 
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::mpsc::{self, Sender};
@@ -21,6 +24,11 @@ pub mod backend;
 pub mod dsp;
 #[doc(hidden)]
 pub mod fake;
+#[cfg(windows)]
+#[doc(hidden)]
+pub mod wasapi;
+#[cfg_attr(not(windows), allow(dead_code))]
+mod wasapi_format;
 mod worker;
 
 use worker::{Command, SharedSlot, Worker, WorkerMsg};
@@ -46,7 +54,11 @@ pub struct LoopbackSource {
 impl LoopbackSource {
     /// Spawns the audio worker thread. Does NOT open a device yet.
     pub fn new() -> Result<Self, AudioError> {
-        Self::with_backend(backend::CpalBackend, DEFAULT_DEVICE_POLL)
+        #[cfg(windows)]
+        let backend = wasapi::WasapiBackend;
+        #[cfg(not(windows))]
+        let backend = backend::UnsupportedBackend;
+        Self::with_backend(backend, DEFAULT_DEVICE_POLL)
     }
 
     /// Same as [`LoopbackSource::new`] but over any capture backend (tests use

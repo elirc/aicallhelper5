@@ -15,7 +15,7 @@ No account, no backend of ours, no telemetry. Bring-your-own API keys.
 ## 2. Tech stack
 
 - Shell/runtime: Tauri 2 (Rust), WebView2. NSIS per-user bundle.
-- Core: Rust, tokio. Audio: `cpal` WASAPI loopback on a dedicated audio thread; anti-aliased resampler to 16 kHz mono i16. STT: `tokio-tungstenite`. LLM: `reqwest` streaming + hand-written incremental SSE parser. Secrets: Windows DPAPI (CryptProtectData, current-user) — must fail CLOSED. `serde`, `thiserror`, `tracing` to a rotating file (never secrets or prompt text).
+- Core: Rust, tokio. Audio: direct WASAPI loopback (`windows` crate, polling mode — cpal 0.15 event-mode loopback delivered ~4% of samples on real hardware) on a dedicated audio thread; anti-aliased resampler to 16 kHz mono i16. STT: `tokio-tungstenite`. LLM: `reqwest` streaming + hand-written incremental SSE parser. Secrets: Windows DPAPI (CryptProtectData, current-user) — must fail CLOSED. `serde`, `thiserror`, `tracing` to a rotating file (never secrets or prompt text).
 - Window/OS: Tauri plugins `global-shortcut`, `single-instance`; `windows` crate for SetWindowDisplayAffinity/GetWindowDisplayAffinity, monitor work areas, per-monitor DPI.
 - Frontend: React 19 + TypeScript strict + Vite, plain CSS with design tokens, pure reducer. IPC: Tauri commands (request/response) + a Tauri Channel (core→page). TS types generated from Rust (`ts-rs`).
 - Tests: `cargo test` (tokio::test, trait fakes, loopback WS/HTTP servers), Vitest + Testing Library. Lint: `clippy -D warnings`, `rustfmt`, `eslint`, `tsc --noEmit`.

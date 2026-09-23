@@ -1,5 +1,6 @@
-//! The audio worker: ONE OS thread that owns every device object (cpal
-//! streams are `!Send`; they are built and dropped here) and all DSP state.
+//! The audio worker: ONE OS thread that owns every device object (capture
+//! streams need not be `Send`; they are built and dropped here) and all DSP
+//! state.
 //!
 //! Everything reaches the worker through one FIFO channel of [`WorkerMsg`]:
 //! commands from [`crate::LoopbackSource`], captured chunks and error reports
@@ -117,8 +118,8 @@ pub(crate) struct Worker<B: CaptureBackend> {
     deferred: VecDeque<WorkerMsg>,
 }
 
-/// Drop a stream without letting a panic in the backend's drop (cpal joins
-/// its thread with `unwrap`) take down the worker.
+/// Drop a stream without letting a panic in the backend's drop (it joins
+/// the backend's capture thread) take down the worker.
 fn drop_stream(stream: Box<dyn CaptureStream>) {
     if std::panic::catch_unwind(std::panic::AssertUnwindSafe(move || drop(stream))).is_err() {
         tracing::error!("audio: panic while stopping the capture stream");

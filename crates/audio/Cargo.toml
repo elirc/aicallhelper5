@@ -14,7 +14,13 @@ callcore-contract = { workspace = true }
 tokio = { workspace = true }
 async-trait = { workspace = true }
 tracing = { workspace = true }
-cpal = { workspace = true }
+
+[target.'cfg(windows)'.dependencies]
+windows = { workspace = true, features = [
+    "Win32_Foundation",
+    "Win32_System_Com",
+    "Win32_Media_Audio",
+] }
 
 [dev-dependencies]
 tokio = { workspace = true, features = ["full", "test-util"] }

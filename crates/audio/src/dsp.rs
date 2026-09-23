@@ -10,7 +10,7 @@ use callcore_contract::ports::AudioFrame;
 
 // ───────────────────────────── downmix ─────────────────────────────
 
-/// Interleaved input samples in one of the formats cpal may hand us.
+/// Interleaved input samples in one of the formats a capture backend may hand us.
 #[derive(Debug, Clone, Copy)]
 pub enum Samples<'a> {
     F32(&'a [f32]),
