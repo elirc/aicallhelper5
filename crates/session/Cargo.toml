@@ -1,0 +1,22 @@
+[package]
+name = "callcore-session"
+description = "The session actor: one live session, supersede/cancel, capture cutoff + drain, STT finalize, answer streaming with watchdogs and retry-once, metrics."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+callcore-contract = { workspace = true }
+callcore-prompt = { workspace = true }
+tokio = { workspace = true }
+async-trait = { workspace = true }
+tracing = { workspace = true }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["full", "test-util"] }
+bytes = { workspace = true }
+serde_json = { workspace = true }
