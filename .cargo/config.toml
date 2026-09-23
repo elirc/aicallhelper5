@@ -1,0 +1,3 @@
+[env]
+# ts-rs writes every `#[ts(export)]` type here during `cargo test -p callcore-contract`.
+TS_RS_EXPORT_DIR = { value = "src/generated", relative = true }
