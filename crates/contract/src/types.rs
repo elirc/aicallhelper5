@@ -38,7 +38,10 @@ pub struct AppError {
 
 impl AppError {
     pub fn new(code: ErrorCode, message: impl Into<String>) -> Self {
-        Self { code, message: message.into() }
+        Self {
+            code,
+            message: message.into(),
+        }
     }
     pub fn internal(message: impl Into<String>) -> Self {
         Self::new(ErrorCode::Internal, message)
@@ -57,12 +60,14 @@ pub mod copy {
     pub const DEVICE_LOST: &str = "The system audio device was disconnected during recording. Answering with what was captured.";
     pub const DEVICE_CHANGED: &str =
         "The default output device changed — now capturing the new device.";
-    pub const STT_CONNECT: &str = "Could not connect to Deepgram. Check the API key and your network.";
+    pub const STT_CONNECT: &str =
+        "Could not connect to Deepgram. Check the API key and your network.";
     pub const NO_STT_KEY: &str = "Add your Deepgram API key in Settings to record.";
     pub const NO_LLM_KEY: &str = "Add an API key for the selected answer provider in Settings.";
     pub const FIRST_TOKEN_TIMEOUT: &str = "The answer didn't start streaming within 10 seconds. Try again, or switch the answer provider in Settings.";
     pub const TOTAL_TIMEOUT: &str = "The answer took longer than 60 seconds and was stopped.";
-    pub const STT_TIMEOUT: &str = "Deepgram did not finish the transcript within 5 seconds. Try again.";
+    pub const STT_TIMEOUT: &str =
+        "Deepgram did not finish the transcript within 5 seconds. Try again.";
     pub const CORE_FAILED: &str = "The app core failed to start. Restart the app; if it keeps happening, copy diagnostics from Settings.";
     pub const CORE_STARTING: &str = "The app is still starting. Try again in a moment.";
     pub const STOP_NOT_TAKEN: &str = "That recording is no longer active.";
@@ -117,7 +122,10 @@ impl CallType {
     }
     /// Unknown ids fall back to `Behavioral` (spec §8).
     pub fn from_id_lossy(id: &str) -> CallType {
-        CallType::ALL.into_iter().find(|c| c.id() == id).unwrap_or_default()
+        CallType::ALL
+            .into_iter()
+            .find(|c| c.id() == id)
+            .unwrap_or_default()
     }
 }
 
@@ -217,7 +225,11 @@ pub struct SessionStatus {
 
 impl SessionStatus {
     pub fn idle() -> Self {
-        Self { id: None, phase: Phase::Idle, recording: None }
+        Self {
+            id: None,
+            phase: Phase::Idle,
+            recording: None,
+        }
     }
 }
 
@@ -282,17 +294,28 @@ pub enum CoreEvent {
     },
     /// `text` is the FULL transcript so far (finalized segments + interim).
     #[serde(rename = "stt:partial", rename_all = "camelCase")]
-    SttPartial { session_id: SessionId, text: String, is_final: bool },
+    SttPartial {
+        session_id: SessionId,
+        text: String,
+        is_final: bool,
+    },
     /// RMS 0..1. Coalesced latest-wins per session; stops after Stop.
     #[serde(rename = "audio:level", rename_all = "camelCase")]
     AudioLevel { session_id: SessionId, rms: f32 },
     #[serde(rename = "audio:device", rename_all = "camelCase")]
-    AudioDevice { session_id: SessionId, kind: DeviceNoticeKind, message: String },
+    AudioDevice {
+        session_id: SessionId,
+        kind: DeviceNoticeKind,
+        message: String,
+    },
     /// The 120 s cap tripped; the session is finalizing/answering now.
     #[serde(rename = "session:autostopped", rename_all = "camelCase")]
     SessionAutostopped { session_id: SessionId },
     #[serde(rename = "llm:delta", rename_all = "camelCase")]
-    LlmDelta { session_id: SessionId, delta: String },
+    LlmDelta {
+        session_id: SessionId,
+        delta: String,
+    },
     #[serde(rename = "llm:done", rename_all = "camelCase")]
     LlmDone {
         session_id: SessionId,
@@ -303,7 +326,10 @@ pub enum CoreEvent {
         metrics: Metrics,
     },
     #[serde(rename = "session:error", rename_all = "camelCase")]
-    SessionError { session_id: SessionId, error: AppError },
+    SessionError {
+        session_id: SessionId,
+        error: AppError,
+    },
 
     // ── window-scoped ──
     #[serde(rename = "hotkey:toggle")]
@@ -682,7 +708,12 @@ mod tests {
             answer: "a".into(),
             finish: Finish::Complete,
             call_type: CallType::SystemDesign,
-            metrics: Metrics { audio_drain_ms: 1, stt_finalize_ms: 2, first_token_ms: 3, total_ms: 4 },
+            metrics: Metrics {
+                audio_drain_ms: 1,
+                stt_finalize_ms: 2,
+                first_token_ms: 3,
+                total_ms: 4,
+            },
         };
         assert_eq!(
             serde_json::to_value(&done).unwrap(),
@@ -697,7 +728,10 @@ mod tests {
     #[test]
     fn cmd_result_wire_shape() {
         let ok: CmdResult<Option<u8>> = CmdResult::Ok(None);
-        assert_eq!(serde_json::to_value(&ok).unwrap(), json!({"ok":true,"value":null}));
+        assert_eq!(
+            serde_json::to_value(&ok).unwrap(),
+            json!({"ok":true,"value":null})
+        );
         let err: CmdResult<()> = CmdResult::Err(AppError::new(ErrorCode::NoSpeech, "x"));
         assert_eq!(
             serde_json::to_value(&err).unwrap(),
@@ -718,7 +752,10 @@ mod tests {
     #[test]
     fn lossy_fallbacks() {
         assert_eq!(CallType::from_id_lossy("nope"), CallType::Behavioral);
-        assert_eq!(CallType::from_id_lossy("system_design"), CallType::SystemDesign);
+        assert_eq!(
+            CallType::from_id_lossy("system_design"),
+            CallType::SystemDesign
+        );
         assert_eq!(AnswerStyle::from_id_lossy("??"), AnswerStyle::Balanced);
     }
 }

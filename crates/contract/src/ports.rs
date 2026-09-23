@@ -39,9 +39,13 @@ pub enum AudioMsg {
     Frame(AudioFrame),
     /// The capture device disappeared mid-recording (unplug, driver reset).
     /// No further frames will arrive for this capture.
-    DeviceLost { message: String },
+    DeviceLost {
+        message: String,
+    },
     /// The default render device changed and capture switched to it.
-    DeviceChanged { message: String },
+    DeviceChanged {
+        message: String,
+    },
 }
 
 /// Unbounded on purpose: the audio thread must never block; total volume is

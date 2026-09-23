@@ -180,3 +180,5 @@ Each golden case pins one construct of the §13 subset exactly. Why: a regressio
 
 ## src/app/App.test.tsx — real page wiring
 - `record -> events -> stop -> streamed answer lands in the DOM` — the real `<App>` (AppProvider + frontend-ui components) against the fake core: button click → command, events → status line, transcript and streamed Markdown (real rAF scheduler), done → Ready. Why: lesson §14.1, catches seam breakage that component tests with hand-built views can't.
+## src/app (orchestrator addition)
+- `window:close-requested with no unsaved work sends no guard ack` — a close request only re-arms the guard when the page actually has unsaved work — the shell treats setCloseGuard(true) as the page's ack of a cancelled close

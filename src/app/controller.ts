@@ -170,6 +170,11 @@ export function createController(opts: ControllerOptions): Controller {
         void refreshSettings();
         void refreshStatus(0);
         break;
+      case "window:close-requested":
+        // Ack the cancelled close: a responsive page keeps its draft guarded
+        // (the shell treats any command as a ping; this is the explicit one).
+        if (closeGuard) void api.setCloseGuard(true);
+        break;
       default:
         break;
     }

@@ -250,11 +250,21 @@ describe("hotkey + window", () => {
     expect(s.api.callsOf("setCloseGuard")).toEqual([[true]]);
     emit(s.api, { type: "window:close-requested" });
     expect(current.view.closeRequested).toBe(true);
+    // The page acks the cancelled close by re-arming the guard (shell ping).
+    expect(s.api.callsOf("setCloseGuard")).toEqual([[true], [true]]);
     act(() => current.actions.dismissCloseRequest());
     expect(current.view.closeRequested).toBe(false);
     act(() => current.actions.setSettingsDirty(false));
     await settle();
-    expect(s.api.callsOf("setCloseGuard")).toEqual([[true], [false]]);
+    expect(s.api.callsOf("setCloseGuard")).toEqual([[true], [true], [false]]);
+  });
+
+  it("window:close-requested with no unsaved work sends no guard ack", async () => {
+    const s = setup();
+    await settle();
+    emit(s.api, { type: "window:close-requested" });
+    await settle();
+    expect(s.api.callsOf("setCloseGuard")).toEqual([]);
   });
 });
 
