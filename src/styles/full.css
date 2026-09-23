@@ -1,0 +1,163 @@
+/* Full layout. Answer first, right under the header. */
+.app-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.app-header__row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-width: 0;
+}
+
+.app-header__title {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.app-header__chip {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--fs-xs);
+  color: var(--c-text-muted);
+  background: var(--c-surface-2);
+  border-radius: var(--r-pill);
+  padding: 1px var(--sp-2);
+}
+
+.app-header__actions {
+  display: flex;
+  gap: 2px;
+  margin-left: auto;
+}
+
+.status-line {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  min-height: 24px;
+}
+
+.status-line__text {
+  flex: 1 1 auto;
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+}
+
+.layout__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  flex: 1;
+  min-height: 0;
+}
+
+.panel {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  padding: var(--sp-2) var(--sp-3);
+  box-shadow: var(--shadow-1);
+}
+
+.panel__head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  margin-bottom: var(--sp-1);
+}
+
+.panel__title {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+}
+
+.panel__tools {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+
+.panel--answer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.answer-scroll {
+  max-height: 42vh;
+  min-height: 80px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  line-height: 1.5;
+}
+
+.latency-chip {
+  font-size: var(--fs-xs);
+  color: var(--c-text-muted);
+  background: var(--c-surface-2);
+  border-radius: var(--r-pill);
+  padding: 1px var(--sp-2);
+  font-variant-numeric: tabular-nums;
+  cursor: help;
+}
+
+.question-text {
+  font-size: var(--fs-md);
+  max-height: 5.5em;
+  overflow-y: auto;
+}
+
+.question-text--empty {
+  color: var(--c-text-muted);
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.record-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+.hotkey-hint {
+  font-size: var(--fs-xs);
+  color: var(--c-text-muted);
+}
+
+.ask {
+  display: flex;
+  gap: var(--sp-2);
+}
+
+.ask__input {
+  flex: 1;
+}
+
+.profile-controls {
+  display: flex;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+.profile-controls .select {
+  max-width: 190px;
+}

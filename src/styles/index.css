@@ -1,0 +1,6 @@
+/* Global stylesheet entry (imported once by components/Root.tsx). */
+@import "./tokens.css";
+@import "./base.css";
+@import "./full.css";
+@import "./prompter.css";
+@import "./settings.css";

@@ -1,0 +1,74 @@
+/* Prompter strip: short and wide, answer anchored at the top. */
+.layout--prompter {
+  height: 100vh;
+  min-height: 160px;
+  gap: var(--sp-1);
+  padding: var(--sp-1) var(--sp-3);
+}
+
+.prompter-top {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-width: 0;
+}
+
+.prompter-status {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: var(--fs-xs);
+  color: var(--c-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.prompter-body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+.prompter-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-anchor: none;
+  line-height: 1.45;
+}
+
+.prompter-column {
+  max-width: 68ch;
+  margin: 0 auto;
+}
+
+.more-hint {
+  position: absolute;
+  right: var(--sp-2);
+  bottom: var(--sp-1);
+  padding: 1px var(--sp-2);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  border: 1px solid var(--c-border-strong);
+  border-radius: var(--r-pill);
+  background: var(--c-surface);
+  box-shadow: var(--shadow-2);
+}
+
+.prompter-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.prompter-question {
+  flex: 1 1 80px;
+  min-width: 60px;
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

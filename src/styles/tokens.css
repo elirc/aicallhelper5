@@ -1,0 +1,104 @@
+/* Design tokens. Light by default, dark via prefers-color-scheme.
+   Text/background pairs are chosen for WCAG AA (≥4.5:1 body, ≥3:1 UI). */
+:root {
+  color-scheme: light dark;
+
+  /* colors */
+  --c-bg: #f5f6f8;
+  --c-surface: #ffffff;
+  --c-surface-2: #eef0f4;
+  --c-text: #1a1d23;
+  --c-text-muted: #4a5160;
+  --c-border: #c9ced8;
+  --c-border-strong: #8a93a3;
+  --c-accent: #1f5fbf;
+  --c-accent-text: #ffffff;
+  --c-accent-soft: #e3ecfa;
+  --c-ok: #1b6e36;
+  --c-ok-soft: #e2f3e7;
+  --c-warn: #7a4f00;
+  --c-warn-soft: #fdf1d6;
+  --c-bad: #b42318;
+  --c-bad-soft: #fde7e5;
+  --c-rec: #c62828;
+  --c-rec-text: #ffffff;
+  --c-focus: #1f5fbf;
+  --c-meter: #2e7d4f;
+
+  /* spacing (4 px grid) */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+
+  /* radii */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --r-pill: 999px;
+
+  /* type */
+  --font-ui: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "Cascadia Mono", Consolas, ui-monospace, monospace;
+  --fs-xs: 11px;
+  --fs-sm: 12px;
+  --fs-md: 13px;
+  --fs-lg: 15px;
+  --fs-xl: 17px;
+  --lh: 1.45;
+
+  /* elevation */
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.08);
+  --shadow-2: 0 2px 8px rgb(0 0 0 / 0.12);
+
+  /* focus */
+  --focus-ring: 0 0 0 2px var(--c-surface), 0 0 0 4px var(--c-focus);
+
+  /* motion */
+  --dur-fast: 120ms;
+  --dur-med: 200ms;
+  --dur-pulse: 1200ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --c-bg: #111318;
+    --c-surface: #1a1d24;
+    --c-surface-2: #242833;
+    --c-text: #e9ebf0;
+    --c-text-muted: #aab1bf;
+    --c-border: #3a404d;
+    --c-border-strong: #6b7384;
+    --c-accent: #8ab6ff;
+    --c-accent-text: #0b1526;
+    --c-accent-soft: #1f2d45;
+    --c-ok: #74d492;
+    --c-ok-soft: #173222;
+    --c-warn: #f2c14e;
+    --c-warn-soft: #3a2e10;
+    --c-bad: #ff8f85;
+    --c-bad-soft: #3d1a18;
+    --c-rec: #ff6b61;
+    --c-rec-text: #1a0806;
+    --c-focus: #8ab6ff;
+    --c-meter: #74d492;
+    --shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
+    --shadow-2: 0 2px 8px rgb(0 0 0 / 0.5);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-med: 0ms;
+    --dur-pulse: 0ms;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
