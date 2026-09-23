@@ -1,0 +1,55 @@
+[package]
+name = "aicallassistant"
+description = "AI Call Assistant — push-to-record call copilot for Windows"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lib]
+name = "aicallassistant_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+callcore-contract = { workspace = true }
+callcore-prompt = { workspace = true }
+callcore-llm = { workspace = true }
+callcore-stt = { workspace = true }
+callcore-audio = { workspace = true }
+callcore-settings = { workspace = true }
+callcore-session = { workspace = true }
+callcore-shell = { workspace = true }
+
+tauri = { version = "2", features = [] }
+tauri-plugin-global-shortcut = "2"
+tauri-plugin-single-instance = "2"
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+async-trait = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { version = "0.3", default-features = false, features = ["fmt", "std"] }
+
+[target.'cfg(windows)'.dependencies]
+# Own entry (not the workspace one) so the shell can add Win32_UI_Shell for
+# ShellExecuteW without widening every other crate's feature set.
+windows = { version = "0.58", features = [
+    "Win32_Foundation",
+    "Win32_UI_WindowsAndMessaging",
+    "Win32_UI_Shell",
+] }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["full", "test-util"] }
+tempfile = { workspace = true }
+bytes = { workspace = true }
+tauri = { version = "2", features = ["test"] }
+
+[features]
+custom-protocol = ["tauri/custom-protocol"]
+
+[lints]
+workspace = true

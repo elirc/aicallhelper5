@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Main window. The page talks to the core ONLY through the app's own commands (allowed for the local app origin without a capability) and one event Channel. No plugin or core window APIs are granted: the page can't register shortcuts, move the window, or touch content protection.",
+  "windows": ["main"],
+  "permissions": []
+}
